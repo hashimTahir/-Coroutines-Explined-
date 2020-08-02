@@ -7,6 +7,7 @@ package com.hashim.coroutinesexplained
 class Constants {
     companion object {
         const val hTag = "hashimTimberTags %s"
+        const val H_RESULT_1 = "Result #1"
 
 
 
