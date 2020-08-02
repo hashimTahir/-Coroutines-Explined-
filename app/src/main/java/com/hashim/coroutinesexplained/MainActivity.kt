@@ -48,17 +48,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun hFakeNetworkRequest() {
-        val hResult1 = hGetResultFromApi()
+        /*These are synchronous requests
+        * hResult2 will be executed after the hresult1
+        * */
+        val hResult1 = hGetResultFromApi1()
         Timber.d("FakeNetworkRequest $hResult1")
         hSetTextOnMain(hResult1)
+
+        val hResult2 = hGetResultFromApi2()
+        Timber.d("FakeNetworkRequest $hResult2")
+        hSetTextOnMain(hResult2)
     }
 
 
-    private fun hSetupView() {
-    }
-
-    private suspend fun hGetResultFromApi(): String {
-        hLogThreadName("hGetResultFromApi")
+    private suspend fun hGetResultFromApi1(): String {
+        hLogThreadName("hGetResultFromApi1")
         delay(1000)
         return Constants.H_RESULT_1
 
@@ -66,5 +70,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun hLogThreadName(hMethodName: String) {
         Timber.d("Method $hMethodName is running on ${Thread.currentThread().name}")
+    }
+
+    private suspend fun hGetResultFromApi2(): String {
+        hLogThreadName("hGetResultFromApi2")
+        delay(1000)
+        return Constants.H_RESULT_2
+
     }
 }
