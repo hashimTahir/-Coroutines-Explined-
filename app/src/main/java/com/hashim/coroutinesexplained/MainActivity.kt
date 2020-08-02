@@ -9,15 +9,16 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        hSetupView()
         hSetupListeners()
 
     }
@@ -28,16 +29,30 @@ class MainActivity : AppCompatActivity() {
             ,Main->for doing stuff on main thread
             ,Default->For heavy computational work.
             */
+            hLogThreadName("hSetupListeners")
             CoroutineScope(IO).launch {
                 hFakeNetworkRequest()
             }
         }
     }
 
+    private suspend fun hSetTextOnMain(hText: String) {
+        withContext(Main) {
+            hSetText(hText)
+        }
+    }
+
+    private fun hSetText(hText: String) {
+        val s = hResultTv.text.toString() + "\n$hText"
+        hResultTv.text = s
+    }
+
     private suspend fun hFakeNetworkRequest() {
         val hResult1 = hGetResultFromApi()
         Timber.d("FakeNetworkRequest $hResult1")
+        hSetTextOnMain(hResult1)
     }
+
 
     private fun hSetupView() {
     }
