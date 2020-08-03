@@ -44,6 +44,9 @@ class MainActivity : AppCompatActivity() {
                 val hResult2 = hGetResultFromApi2()
                 hSetTextOnMain(hResult2)
             }
+            if (hJob == null) {
+                hSetTextOnMain("Job got cancelled")
+            }
         }
     }
 
