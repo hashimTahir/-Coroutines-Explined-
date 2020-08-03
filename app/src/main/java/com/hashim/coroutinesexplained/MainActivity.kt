@@ -7,12 +7,9 @@ package com.hashim.coroutinesexplained
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -31,7 +28,21 @@ class MainActivity : AppCompatActivity() {
             */
             hLogThreadName("hSetupListeners")
             CoroutineScope(IO).launch {
-                hFakeNetworkRequest()
+//                hFakeNetworkRequest()
+                hFakeNetworkRequestWithTimeOut()
+            }
+        }
+    }
+
+    /*Replace lauch with time out for specifying timeouts*/
+    private suspend fun hFakeNetworkRequestWithTimeOut() {
+        withContext(IO) {
+            val hJob = withTimeoutOrNull(Constants.H_TIME_OUT) {
+                val hResult1 = hGetResultFromApi1()
+                hSetTextOnMain(hResult1)
+
+                val hResult2 = hGetResultFromApi2()
+                hSetTextOnMain(hResult2)
             }
         }
     }

@@ -9,6 +9,7 @@ class Constants {
         const val hTag = "hashimTimberTags %s"
         const val H_RESULT_1 = "Result #1"
         const val H_RESULT_2 = "Result #2"
+        const val H_TIME_OUT = 1900L
 
 
 
