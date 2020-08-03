@@ -5,6 +5,7 @@
 package com.hashim.coroutinesexplained
 
 import android.os.Bundle
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_jobs_cancelation.*
@@ -31,6 +32,17 @@ class JobsCancelationActivity : AppCompatActivity() {
                 hInitJob()
             }
         }
+    }
+
+    private fun ProgressBar.hStartOrCancelJob() {
+        if (this.progress > 0) {
+            hResetJob()
+        }
+
+    }
+
+    private fun hResetJob() {
+        TODO("Not yet implemented")
     }
 
     private fun hInitJob() {
