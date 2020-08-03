@@ -12,6 +12,12 @@ class Constants {
         const val H_TIME_OUT = 1900L
 
 
+        const val H_PROGRESS_MAX = 100
+        const val H_PROGRESS_START= 0
+        const val H_JOB_TIME= 4000
+
+
+
 
 
 
