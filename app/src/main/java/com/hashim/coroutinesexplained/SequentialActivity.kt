@@ -6,14 +6,10 @@ package com.hashim.coroutinesexplained
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_asynchronous.*
 import kotlinx.android.synthetic.main.activity_sequential.*
-import kotlinx.android.synthetic.main.activity_sequential.hClickMeB
-import kotlinx.android.synthetic.main.activity_sequential.hDetialTv
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
+import kotlin.system.measureTimeMillis
 
 class SequentialActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,10 +21,33 @@ class SequentialActivity : AppCompatActivity() {
 
     private fun hSetupView() {
         hClickMeB.setOnClickListener {
+            hFakeApiRequest()
 
         }
     }
 
+    private fun hFakeApiRequest() {
+        CoroutineScope(IO).launch {
+            val hExecutionTime = measureTimeMillis {
+                val hLaunch1 = async {
+                    hSetTextOnMain("Thread name is ${Thread.currentThread().name}")
+                    hGetResultFromApi1()
+                }.await()
+                val hLaunch2 = async {
+                    hSetTextOnMain("Thread name is ${Thread.currentThread().name}")
+                    try {
+                        hGetResultFromApi2("lklkj")
+                    } catch (e: CancellationException) {
+                        e.message
+                    }
+                }.await()
+                if (hLaunch2 != null) {
+                    hSetTextOnMain(hLaunch2)
+                }
+            }
+            hSetTextOnMain("Total execution time $hExecutionTime")
+        }
+    }
 
 
     private fun hSetTextOnMain(hText: String) {
@@ -48,9 +67,12 @@ class SequentialActivity : AppCompatActivity() {
 
     }
 
-    private suspend fun hGetResultFromApi2(): String {
+    private suspend fun hGetResultFromApi2(hLaunch1: String): String {
         delay(1700)
-        return Constants.H_RESULT_2
+        if (hLaunch1.equals(Constants.H_RESULT_1)) {
+            return Constants.H_RESULT_2
+        }
+        throw CancellationException("Result 1 was incorrect")
 
     }
 }
