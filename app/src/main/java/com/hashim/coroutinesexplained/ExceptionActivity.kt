@@ -6,12 +6,13 @@ package com.hashim.coroutinesexplained
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 
+/*App crashes if any of childer jobs fails/throws an exception
+*
+* To catch exception attach coroutine exception handler to the parent job
+* */
 class ExceptionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +21,10 @@ class ExceptionActivity : AppCompatActivity() {
     }
 
     private fun hMain() {
-        val hJob = CoroutineScope(Dispatchers.IO).launch {
+        val hExceptionHandler = CoroutineExceptionHandler { _, hException ->
+            Timber.d("Exception thrown in one of the children $hException")
+        }
+        val hJob = CoroutineScope(Dispatchers.IO).launch(hExceptionHandler) {
 
             val hJob1 = launch {
                 Timber.d("Result hjob1 ${hGetResult(1)}")
