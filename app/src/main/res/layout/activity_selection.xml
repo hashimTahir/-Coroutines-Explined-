@@ -81,5 +81,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/hRunBlockingExampleB" />
 
+    <Button
+        android:id="@+id/hExceptionExampleB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Exception Example"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hGlobalScopeExampleB" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

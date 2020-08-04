@@ -37,8 +37,10 @@ class SelectionActivity : AppCompatActivity() {
         hRunBlockingExampleB.setOnClickListener {
             startActivity(Intent(this, RunBlockingActivity::class.java))
         }
-        hGlobalScopeExampleB.setOnClickListener {
-            startActivity(Intent(this, GlobalScopeExampleActivity::class.java))
+        hExceptionExampleB.setOnClickListener {
+            startActivity(Intent(this, RunBlockingActivity::class.java))
         }
+
+
     }
 }
