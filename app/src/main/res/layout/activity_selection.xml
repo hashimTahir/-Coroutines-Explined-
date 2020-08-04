@@ -60,4 +60,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/hSequentialExampleB" />
+
+    <Button
+        android:id="@+id/hRunBlockingExampleB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Run Blocking Example"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hFreezeExampleB" />
 </androidx.constraintlayout.widget.ConstraintLayout>
