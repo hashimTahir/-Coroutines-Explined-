@@ -28,5 +28,8 @@ class SelectionActivity : AppCompatActivity() {
         hAsynchronousExampleB.setOnClickListener {
             startActivity(Intent(this, AsynchronousActivity::class.java))
         }
+        hSequentialExampleB.setOnClickListener {
+            startActivity(Intent(this, AsynchronousActivity::class.java))
+        }
     }
 }

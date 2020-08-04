@@ -35,9 +35,19 @@
         android:id="@+id/hAsynchronousExampleB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Asynchronous Parallel example"
+        android:text="Asynchronous Parallel Example"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/hCancelationExampleB" />
+
+    <Button
+        android:id="@+id/hSequentialExampleB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sequential Example"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hAsynchronousExampleB" />
 </androidx.constraintlayout.widget.ConstraintLayout>
