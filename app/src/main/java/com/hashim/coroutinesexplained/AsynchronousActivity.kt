@@ -7,11 +7,9 @@ package com.hashim.coroutinesexplained
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_asynchronous.*
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlin.system.measureTimeMillis
 
 class AsynchronousActivity : AppCompatActivity() {
@@ -24,7 +22,34 @@ class AsynchronousActivity : AppCompatActivity() {
     private fun hSetupView() {
         hClickMeB.setOnClickListener {
             hSetTextToTv("Button Clicked")
-            hFakeApiRequest()
+//            hFakeApiRequest()
+            hFakeApiRequest2()
+        }
+    }
+
+    private fun hFakeApiRequest2() {
+        /*with async result is available right here
+        *
+        * wheareas result is stuck inside coroutine scope. has to get from
+        * Main*/
+        CoroutineScope(IO).launch {
+            val hExecutionTime = measureTimeMillis {
+
+                val launch1: Deferred<String> = async {
+                    hSetTextOnMain("Thread Name is  ${Thread.currentThread().name}")
+                    hGetResultFromApi1()
+                }
+                val launch2: Deferred<String> = async {
+                    hSetTextOnMain("Thread Name is  ${Thread.currentThread().name}")
+                    hGetResultFromApi2()
+                }
+
+                hSetTextOnMain("Got ${launch1.await()}")
+                hSetTextOnMain("Got ${launch2.await()}")
+            }
+
+            hSetTextOnMain("Total Time $hExecutionTime")
+
         }
     }
 
