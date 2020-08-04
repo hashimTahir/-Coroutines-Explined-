@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class FreezeUiActivity : AppCompatActivity() {
+    /*Coroutines run on threads they are not threads.*/
     var hCount = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +43,7 @@ class FreezeUiActivity : AppCompatActivity() {
 //            delay(3000)
 //            Thread.sleep(3000)
 
-            for (i in 1..100_000) {
+            for (i in 1..5) {
                 launch {
                     hFakeNetworkRequest()
                 }
