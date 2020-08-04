@@ -64,6 +64,9 @@ class ExceptionActivity : AppCompatActivity() {
 
     suspend fun hGetResult(number: Int): Int {
         delay(number * 550L)
+        if (number == 2) {
+            throw Exception("Job 2 failed with number code $number")
+        }
         return number * 2
 
     }
