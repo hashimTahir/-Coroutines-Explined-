@@ -38,7 +38,7 @@ class SelectionActivity : AppCompatActivity() {
             startActivity(Intent(this, RunBlockingActivity::class.java))
         }
         hExceptionExampleB.setOnClickListener {
-            startActivity(Intent(this, RunBlockingActivity::class.java))
+            startActivity(Intent(this, ExceptionActivity::class.java))
         }
 
 
