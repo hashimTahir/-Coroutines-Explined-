@@ -25,5 +25,8 @@ class SelectionActivity : AppCompatActivity() {
             startActivity(Intent(this, JobsCancelationActivity::class.java))
 
         }
+        hAsynchronousExampleB.setOnClickListener {
+            startActivity(Intent(this, AsynchronousActivity::class.java))
+        }
     }
 }

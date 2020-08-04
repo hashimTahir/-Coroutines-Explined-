@@ -30,4 +30,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/hBasicExampleB" />
+
+    <Button
+        android:id="@+id/hAsynchronousExampleB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Asynchronous Parallel example"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hCancelationExampleB" />
 </androidx.constraintlayout.widget.ConstraintLayout>
