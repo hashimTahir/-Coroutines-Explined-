@@ -47,6 +47,7 @@ class JobsCancelationActivity : AppCompatActivity() {
 
                 for (i in Constants.H_PROGRESS_START..Constants.H_PROGRESS_MAX) {
                     delay((Constants.H_JOB_TIME / Constants.H_PROGRESS_MAX).toLong())
+                    this@hStartOrCancelJob.progress = i
                 }
                 hSetText("${completableJob} is complete")
             }
@@ -90,7 +91,7 @@ class JobsCancelationActivity : AppCompatActivity() {
     }
 
     private fun hShowToastMessage(hMessage: String) {
-        GlobalScope.launch {
+        GlobalScope.launch(Main) {
             Toast.makeText(this@JobsCancelationActivity, hMessage, Toast.LENGTH_SHORT).show()
         }
     }
