@@ -9,9 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.*
 import timber.log.Timber
 
-/*App crashes if any of childer jobs fails/throws an exception
+/*App crashes if any of children jobs fails/throws an exception
 *
 * To catch exception attach coroutine exception handler to the parent job
+*
+* case1: only job 2 throws expception -> result-> after job1 everything fails including the parent
+* job
+*
+* case 2:
+*
 * */
 class ExceptionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +54,7 @@ class ExceptionActivity : AppCompatActivity() {
             val hJob3 = launch {
                 Timber.d("Result hjob3 ${hGetResult(3)}")
             }
-            hJob1.invokeOnCompletion {
+            hJob3.invokeOnCompletion {
                 if (it != null) {
                     Timber.d("Exception occured on hJob3 $it")
                 }
