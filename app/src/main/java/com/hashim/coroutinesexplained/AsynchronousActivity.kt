@@ -29,24 +29,34 @@ class AsynchronousActivity : AppCompatActivity() {
     }
 
     private fun hFakeApiRequest() {
-        CoroutineScope(IO).launch {
-            var launch1 = launch {
-                val hTime1 = measureTimeMillis {
-                    val hGetResultFromApi1 = hGetResultFromApi1()
-                    hSetTextOnMain("Result From api 1 $hGetResultFromApi1")
+        val hStartTime = System.currentTimeMillis()
+        val hParentJob = CoroutineScope(IO).launch {
+
+            var hTotalTime = measureTimeMillis {
+
+                var launch1 = launch {
+                    val hTime1 = measureTimeMillis {
+                        val hGetResultFromApi1 = hGetResultFromApi1()
+                        hSetTextOnMain("Result From api 1 $hGetResultFromApi1")
+                    }
+                    hSetTextOnMain("Time for job 1 $hTime1")
+
+
                 }
-                hSetTextOnMain("Time for job 1 $hTime1")
+                var launch2 = launch {
+                    val hTime2 = measureTimeMillis {
+                        val hGetResultFromApi2 = hGetResultFromApi2()
+                        hSetTextOnMain("Result From api 2 $hGetResultFromApi2")
+                    }
+                    hSetTextOnMain("Time for job 2 $hTime2")
+                }
 
 
             }
-            var launch2 = launch {
-                val hTime2 = measureTimeMillis {
-                    val hGetResultFromApi2 = hGetResultFromApi2()
-                    hSetTextOnMain("Result From api 2 $hGetResultFromApi2")
-                }
-                hSetTextOnMain("Time for job 2 $hTime2")
-            }
-
+            hSetTextOnMain("Total time from parent $hTotalTime")
+        }
+        hParentJob.invokeOnCompletion {
+            hSetTextOnMain("Total Time is ${System.currentTimeMillis() - hStartTime}")
         }
     }
 
