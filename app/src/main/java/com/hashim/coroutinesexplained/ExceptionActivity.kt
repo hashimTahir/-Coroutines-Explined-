@@ -20,6 +20,12 @@ import timber.log.Timber
 * parent.. if simple exception is thrown only job1 is completed all other fail including parent
 *  if cancellation exception is thrown result is same as if explicitly cancelling the job 2.
 *
+* passing the handler to children does nothing. causes crash in case of exception.
+* try catch works clutters the code.
+*
+* Solution ->> SupervisorScope and and then attach handler to alll of the jobs
+* supervisor scope handles all exceptions
+*
 * */
 class ExceptionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,34 +40,36 @@ class ExceptionActivity : AppCompatActivity() {
         }
         val hJob = CoroutineScope(Dispatchers.IO).launch(hExceptionHandler) {
 
-            val hJob1 = launch {
-                Timber.d("Result hjob1 ${hGetResult(1)}")
-            }
-            hJob1.invokeOnCompletion {
-                if (it != null) {
-                    Timber.d("Exception occured on hJob1 $it")
+            supervisorScope {
+
+                val hJob1 = launch {
+                    Timber.d("Result hjob1 ${hGetResult(1)}")
+                }
+                hJob1.invokeOnCompletion {
+                    if (it != null) {
+                        Timber.d("Exception occured on hJob1 $it")
+                    }
+                }
+
+                val hJob2 = launch(hExceptionHandler) {
+                    Timber.d("Result hjob2 ${hGetResult(2)}")
+                }
+                hJob2.invokeOnCompletion {
+                    if (it != null) {
+                        Timber.d("Exception occured on hJob2 $it")
+                    }
+                }
+
+
+                val hJob3 = launch {
+                    Timber.d("Result hjob3 ${hGetResult(3)}")
+                }
+                hJob3.invokeOnCompletion {
+                    if (it != null) {
+                        Timber.d("Exception occured on hJob3 $it")
+                    }
                 }
             }
-
-            val hJob2 = launch {
-                Timber.d("Result hjob2 ${hGetResult(2)}")
-            }
-            hJob2.invokeOnCompletion {
-                if (it != null) {
-                    Timber.d("Exception occured on hJob2 $it")
-                }
-            }
-
-
-            val hJob3 = launch {
-                Timber.d("Result hjob3 ${hGetResult(3)}")
-            }
-            hJob3.invokeOnCompletion {
-                if (it != null) {
-                    Timber.d("Exception occured on hJob3 $it")
-                }
-            }
-
         }
 
         hJob.invokeOnCompletion {
@@ -77,7 +85,7 @@ class ExceptionActivity : AppCompatActivity() {
     suspend fun hGetResult(number: Int): Int {
         delay(number * 550L)
         if (number == 2) {
-            throw CancellationException("Job 2 failed with number code $number")
+            throw Exception("Job 2 failed with number code $number")
         }
         return number * 2
 
