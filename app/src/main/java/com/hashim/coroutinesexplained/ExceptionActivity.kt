@@ -23,8 +23,8 @@ import timber.log.Timber
 * passing the handler to children does nothing. causes crash in case of exception.
 * try catch works clutters the code.
 *
-* Solution ->> SupervisorScope and and then attach handler to alll of the jobs
-* supervisor scope handles all exceptions
+* Solution ->> SupervisorScope and and then attach handler to the parent
+* supervisor scope handles all exceptions on all the childeren.
 *
 * */
 class ExceptionActivity : AppCompatActivity() {
@@ -51,7 +51,7 @@ class ExceptionActivity : AppCompatActivity() {
                     }
                 }
 
-                val hJob2 = launch(hExceptionHandler) {
+                val hJob2 = launch {
                     Timber.d("Result hjob2 ${hGetResult(2)}")
                 }
                 hJob2.invokeOnCompletion {
