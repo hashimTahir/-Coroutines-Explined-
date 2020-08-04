@@ -50,4 +50,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/hAsynchronousExampleB" />
+
+    <Button
+        android:id="@+id/hFreezeExampleB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Freeze Ui Example"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hSequentialExampleB" />
 </androidx.constraintlayout.widget.ConstraintLayout>
