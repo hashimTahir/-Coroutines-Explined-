@@ -27,13 +27,19 @@ class GlobalScopeExampleActivity : AppCompatActivity() {
     }
 
     /*Cancelling a parent job cancels all children jobs*/
+
+
     private fun hMain() {
         val hCurrentTime = System.currentTimeMillis()
         Timber.d("Starting Parent Job")
         hJob = CoroutineScope(Dispatchers.Main).launch {
-            launch(Dispatchers.Default) { hStartWork(1) }
-            launch(Dispatchers.Default) { hStartWork(2) }
-            launch(Dispatchers.Default) { hStartWork(3) }
+            /*Global scope here means under jobs are now independent of parent job
+            Global job are fully independent.
+            * and cancelling the parent wont affect the children jobs.*/
+
+            GlobalScope.launch { hStartWork(1) }
+            GlobalScope.launch { hStartWork(2) }
+            GlobalScope.launch { hStartWork(3) }
         }
         hJob.invokeOnCompletion {
             if (it != null) {
