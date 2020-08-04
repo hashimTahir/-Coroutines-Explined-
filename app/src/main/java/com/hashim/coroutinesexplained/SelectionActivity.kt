@@ -34,5 +34,8 @@ class SelectionActivity : AppCompatActivity() {
         hFreezeExampleB.setOnClickListener {
             startActivity(Intent(this, FreezeUiActivity::class.java))
         }
+        hRunBlockingExampleB.setOnClickListener {
+            startActivity(Intent(this, RunBlockingActivity::class.java))
+        }
     }
 }
