@@ -9,10 +9,9 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_jobs_cancelation.*
-import kotlinx.coroutines.CompletableJob
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import timber.log.Timber
 
 class JobsCancelationActivity : AppCompatActivity() {
@@ -31,23 +30,49 @@ class JobsCancelationActivity : AppCompatActivity() {
             if (!::hCompletableJob.isInitialized) {
                 hInitJob()
             }
+            hJobProgressBar.hStartOrCancelJob(hCompletableJob)
         }
     }
 
-    private fun ProgressBar.hStartOrCancelJob() {
+    private fun ProgressBar.hStartOrCancelJob(completableJob: CompletableJob) {
         if (this.progress > 0) {
+            Timber.d("${completableJob} is already activie.")
             hResetJob()
+        } else {
+            hStartJobB.text = "Cancel Job"
+            /*Launches coroutines with hcompleteable job, can be added more all
+            are indenpendent of each other*/
+            CoroutineScope(IO + completableJob).launch {
+                Timber.d("$this coroutine is activated with ${completableJob}")
+
+                for (i in Constants.H_PROGRESS_START..Constants.H_PROGRESS_MAX) {
+                    delay((Constants.H_JOB_TIME / Constants.H_PROGRESS_MAX).toLong())
+                }
+                hSetText("${completableJob} is complete")
+            }
+            /*if socpe . cancel used all will be cancelled to cancel jst one job
+            * use job .cancel*/
         }
 
+    }
+
+    private fun hSetText(hText: String) {
+        GlobalScope.launch(Main) {
+            hJobTv.text = hText
+        }
     }
 
     private fun hResetJob() {
-        TODO("Not yet implemented")
+        if (hCompletableJob.isActive || hCompletableJob.isCompleted) {
+            hCompletableJob.cancel(CancellationException("Reseting job"))
+        }
+        hInitJob()
+
     }
 
     private fun hInitJob() {
         hStartJobB.text = "Start Job"
-        hJobTv.text = ""
+        hSetText("")
         hCompletableJob = Job()
         hCompletableJob.invokeOnCompletion {
             it?.message.let {
