@@ -17,7 +17,8 @@ import timber.log.Timber
 * job
 *
 * case 2: only job 2 gets cancelled -Result -> only cancelled job gets cancelled all other complete including the
-* parent
+* parent.. if simple exception is thrown only job1 is completed all other fail including parent
+*  if cancellation exception is thrown result is same as if explicitly cancelling the job 2.
 *
 * */
 class ExceptionActivity : AppCompatActivity() {
@@ -45,8 +46,6 @@ class ExceptionActivity : AppCompatActivity() {
             val hJob2 = launch {
                 Timber.d("Result hjob2 ${hGetResult(2)}")
             }
-            delay(200)
-            hJob2.cancel()
             hJob2.invokeOnCompletion {
                 if (it != null) {
                     Timber.d("Exception occured on hJob2 $it")
@@ -78,7 +77,7 @@ class ExceptionActivity : AppCompatActivity() {
     suspend fun hGetResult(number: Int): Int {
         delay(number * 550L)
         if (number == 2) {
-//            throw Exception("Job 2 failed with number code $number")
+            throw CancellationException("Job 2 failed with number code $number")
         }
         return number * 2
 
